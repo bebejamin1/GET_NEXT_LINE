@@ -6,7 +6,7 @@
 /*   By: bbeaurai <bbeaurai@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:03:13 by bbeaurai          #+#    #+#             */
-/*   Updated: 2025/11/19 11:50:42 by bbeaurai         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:51:01 by bbeaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 char	*for_next_line(char *check)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	while (check[i] != '\n' && i < BUFFER_SIZE)
+	while (check[i] != '\n' && check[i] != '\0')
 		i++;
-	while (check[i] != '\0' && i < BUFFER_SIZE)
+	i++;
+	while (check[i] != '\0')
 	{
 		check[j] = check[i];
 		i++;
@@ -36,7 +37,7 @@ int	check_if_nline(char *check)
 	int	i;
 
 	i = 0;
-	while (check[i] != '\n' && i < BUFFER_SIZE)
+	while (check[i] != '\n' && check[i] != '\0')
 		i++;
 	if (check[i] == '\n')
 		return (-1);
@@ -87,12 +88,10 @@ int	main(void)
 	while (1)
 	{
 		line = get_next_line(fd);
+		printf("%s", line);
 		if (!line)
 			break;
-		printf("%s", line);
 		free (line);
 	}
-	line = get_next_line(fd);
-	printf("%s", line);
-	free (line);
+	close (fd);
 }

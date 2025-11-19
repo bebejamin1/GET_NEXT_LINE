@@ -6,7 +6,7 @@
 /*   By: bbeaurai <bbeaurai@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:55:56 by bbeaurai          #+#    #+#             */
-/*   Updated: 2025/11/19 12:06:38 by bbeaurai         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:59:05 by bbeaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ size_t	ft_countlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0' && s[i] != '\n')
+	while (s[i] != '\n' && s[i] != '\0')
 		i++;
 	if (s[i] == '\n')
 		i++;
 	return (i);
 }
 
-char	*error(char const *s1, char const *s2)
+char	*error(char *s1, char *s2)
 {
 	char	*str;
 
@@ -41,18 +41,7 @@ char	*error(char const *s1, char const *s2)
 	return (NULL);
 }
 
-char	*malloc_castjoin(char const *s1, char const *s2)
-{
-	char	*str1;
-
-	if (check_if_nline((char *)s2) == -1)
-		str1 = malloc(sizeof(char) * (ft_countlen(s1) + ft_countlen(s2)) + 2);
-	else
-		str1 = malloc(sizeof(char) * (ft_countlen(s1) + ft_countlen(s2)) + 1);
-	return (str1);
-}
-
-char	*ft_castjoin(char const *s1, char const *s2)
+char	*ft_castjoin(char *s1, char *s2)
 {
 	char	*str1;
 	int		i;
@@ -76,12 +65,12 @@ char	*ft_castjoin(char const *s1, char const *s2)
 		j++;
 		i++;
 	}
-	if (check_if_nline((char *)s2) == -1)
-		str1[i++] = '\n';
+	while (s2[j] == '\n' && s2[j] != '\0')
+		str1[i++] = s2[j++];
 	return (str1[i] = '\0', str1);
 }
 
-char	*ft_stringdup(const char *source)
+char	*ft_stringdup(char *source)
 {
 	char	*dest;
 	char	*src2;
