@@ -6,80 +6,97 @@
 /*   By: bbeaurai <bbeaurai@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:55:56 by bbeaurai          #+#    #+#             */
-/*   Updated: 2025/11/17 17:54:11 by bbeaurai         ###   ########.fr       */
+/*   Updated: 2025/11/19 12:06:38 by bbeaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_countword(char *s, char c)
+size_t	ft_countlen(const char *s)
 {
-	int	nb;
-	int	i;
+	size_t	i;
 
-	nb = 0;
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			nb++;
+	while (s[i] != '\0' && s[i] != '\n')
 		i++;
-	}
-	return (nb);
+	if (s[i] == '\n')
+		i++;
+	return (i);
 }
 
-char	*ft_start_end_str(char *s, int start, int end)
+char	*error(char const *s1, char const *s2)
 {
 	char	*str;
+
+	if (!s1 && s2)
+	{
+		str = ft_stringdup(s2);
+		return (str);
+	}
+	else if (!s2 && s1)
+	{
+		str = ft_stringdup(s1);
+		return (str);
+	}
+	return (NULL);
+}
+
+char	*malloc_castjoin(char const *s1, char const *s2)
+{
+	char	*str1;
+
+	if (check_if_nline((char *)s2) == -1)
+		str1 = malloc(sizeof(char) * (ft_countlen(s1) + ft_countlen(s2)) + 2);
+	else
+		str1 = malloc(sizeof(char) * (ft_countlen(s1) + ft_countlen(s2)) + 1);
+	return (str1);
+}
+
+char	*ft_castjoin(char const *s1, char const *s2)
+{
+	char	*str1;
+	int		i;
+	int		j;
+
+	if (!s1 || !s2)
+		return (error(s1, s2));
+	str1 = malloc(sizeof(char) * (ft_countlen(s1) + ft_countlen(s2)) + 1);
+	if (!str1)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		str1[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != '\0' && s2[j] != '\n')
+	{
+		str1[i] = s2[j];
+		j++;
+		i++;
+	}
+	if (check_if_nline((char *)s2) == -1)
+		str1[i++] = '\n';
+	return (str1[i] = '\0', str1);
+}
+
+char	*ft_stringdup(const char *source)
+{
+	char	*dest;
+	char	*src2;
 	int		i;
 
 	i = 0;
-	str = malloc(sizeof(char) * (end - start) + 2);
-	if (!str)
+	src2 = (char *)source;
+	dest = malloc(sizeof(char) * ft_countlen(source) + 1);
+	if (!dest)
 		return (NULL);
-	while (start <= end)
+	while (source[i])
 	{
-		str[i] = s[start];
-		start++;
+		dest[i] = src2[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
-}
-
-void	ft_malloc_string(char **string, char *s, char c)
-{
-	int	tab;
-	int	end;
-	int	start;
-
-	tab = 0;
-	end = 0;
-	start = 0;
-	while (s[end] != '\0')
-	{
-		while (s[start] == c)
-			start++;
-		if (s[end] != c && (s[end + 1] == c || s[end + 1] == '\0'))
-		{
-			string[tab] = ft_start_end_str(s, start, end);
-			start = end + 1;
-			tab++;
-		}
-		end++;
-	}
-	string[tab] = NULL;
-}
-
-char	**ft_split(char const *s, char c)
-{
-	int		nb;
-	char	**string;
-
-	nb = ft_countword((char *)s, c);
-	string = malloc(sizeof(char *) * (nb + 1));
-	if (!string)
-		return (NULL);
-	ft_malloc_string(string, (char *)s, c);
-	return (string);
+	dest[i] = '\0';
+	return (dest);
 }
