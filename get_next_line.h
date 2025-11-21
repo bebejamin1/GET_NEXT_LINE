@@ -6,7 +6,7 @@
 /*   By: bbeaurai <bbeaurai@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:04:01 by bbeaurai          #+#    #+#             */
-/*   Updated: 2025/11/19 15:57:19 by bbeaurai         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:57:14 by bbeaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 42
 # endif
 
 # include <stdarg.h>
@@ -28,14 +28,13 @@
 # include <limits.h>
 # include <fcntl.h>
 
-char	*for_next_line(char *check);
-int		check_if_nline(char *check);
-char	*free_stock(char *str, char *buffer);
-char	*get_next_line(int fd);
-size_t	ft_countlen(const char *s);
-char	*error(char *s1, char *s2);
-char	*malloc_castjoin(char const *s1, char const *s2);
-char	*ft_castjoin(char *s1, char *s2);
-char	*ft_stringdup(char *source);
+size_t	ft_str_length(char *s); // taille pour malloc
+char	*error_str_line(char *s1, char *s2); // erreur str line
+char	*ft_str_line(char *s1, char *s2); // ecrire la ligne a partir du buffer
+char	*ft_str_duplicate(char *source); // malloc facilement
+char	*for_next_buffer(char *check); // recopie pour la prochaine utilisation
+int		check_if_n_inline(char *check); // strchr
+char	*free_stock(char *line, char *buffer); // freeeeeeeee
+char	*get_next_line(int fd); // fonction principale
 
 #endif
