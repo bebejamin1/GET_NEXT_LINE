@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbeaurai <bbeaurai@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 14:03:13 by bbeaurai          #+#    #+#             */
-/*   Updated: 2025/11/25 10:20:23 by bbeaurai         ###   ########.fr       */
+/*   Updated: 2025/11/25 10:46:06 by bbeaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*for_next_buffer(char *check)
 {
@@ -86,7 +86,7 @@ char	*reader_loop(ssize_t reader, int fd, char *buffer, char *line)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1] = "";
+	static char	buffer[NB_OF_FD][BUFFER_SIZE + 1];
 	char		*line;
 	ssize_t		reader;
 
@@ -94,24 +94,9 @@ char	*get_next_line(int fd)
 	reader = 1;
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	line = reader_loop(reader, fd, buffer, line);
+	line = reader_loop(reader, fd, buffer[fd], line);
 	return (line);
 }
-
-// int main(void)
-// {
-// 	char *line;
-// 	//
-// 	/////////// text.txt /////////////////
-// 	//
-// 	char	*file = "text/43_no_nl";
-// 	int		fd = open(file, O_RDWR);
-// 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free (line);
-// 	close (fd);
-// }
 
 // int	main(void)
 // {
@@ -120,18 +105,57 @@ char	*get_next_line(int fd)
 // 	//
 // 	/////////// text.txt /////////////////
 // 	//
-// 	char	*file = "text/one_line_no_nl.txt";
-// 	int		fd = open(file, O_RDWR);
+// 	int		fd1 = open("text/one_line_no_nl.txt", O_RDWR);
+// 	int		fd2 = open("text/41_with_nl", O_RDWR);
+// 	int		fd3 = open("text/text.txt", O_RDWR);
+// 	int		fd4 = open("text/text.txt", O_RDWR);
 // 	printf("BUFFER_SIZE : %d\n", BUFFER_SIZE);
+// 	printf("NB_OF_FD : %d\n\n", NB_OF_FD);
 // 	while (1)
 // 	{
-// 		line = get_next_line(fd);
+// 		line = get_next_line(fd1);
 // 		printf("%s", line);
 // 		if (!line)
 // 			break;
 // 		free (line);
 // 		i++;
 // 	}
-// 	printf("\ni : %d\n", i);
-// 	close (fd);
+// 	printf("\ni : %d\n\n", i);
+// 	i = 0;
+// 		while (1)
+// 	{
+// 		line = get_next_line(fd2);
+// 		printf("%s", line);
+// 		if (!line)
+// 			break;
+// 		free (line);
+// 		i++;
+// 	}
+// 	printf("\ni : %d\n\n", i);
+// 	i = 0;
+// 		while (1)
+// 	{
+// 		line = get_next_line(fd3);
+// 		printf("%s", line);
+// 		if (!line)
+// 			break;
+// 		free (line);
+// 		i++;
+// 	}
+// 	printf("\ni : %d\n\n", i);
+// 		i = 0;
+// 		while (1)
+// 	{
+// 		line = get_next_line(fd4);
+// 		printf("%s", line);
+// 		if (!line)
+// 			break;
+// 		free (line);
+// 		i++;
+// 	}
+// 	printf("\ni : %d\n\n", i);
+// 	close (fd1);
+// 	close (fd2);
+// 	close (fd3);
+// 	close (fd4);
 // }
